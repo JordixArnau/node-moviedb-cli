@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 
 const { Command } = require("commander");
+const req = require("./utils/httprequest");
+const ora = require("ora");
+require("dotenv/config");
 
 const program = new Command();
 program.version("0.0.1");
@@ -15,8 +18,10 @@ program
 program
   .command("get-person")
   .description("Make a network request to fetch the data of a single person")
-  .action(function handleAction() {
-    console.log("hello-world");
+  .requiredOption("-i, --id <id> ", "The id of the person")
+  .action(function handleAction(options) {
+    ora("Fetching the person data...").start();
+    req.httprequest(`person/${options.id}`);
   });
 
 program
